@@ -1,0 +1,54 @@
+name: Actualiser le calendrier GitHub
+
+on:
+  schedule:
+    # UTC. Le démarrage peut être retardé par GitHub.
+    - cron: '23 5,17 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/activity.py'
+      - 'tests/test_activity.py'
+      - '.github/workflows/update-activity.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: profile-activity
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.repository == 'SouphianeJ/SouphianeJ'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, référence vérifiée
+        with:
+          fetch-depth: 1
+      - name: Tester le générateur
+        run: python3 -m unittest discover -s tests -v
+      - name: Lire les agrégats et générer le calendrier
+        env:
+          # GHP n'est pas nécessaire aux comptes privés déjà partagés anonymement.
+          # Le jeton automatique ne lit pas le code des dépôts privés.
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/activity.py --login SouphianeJ --output assets
+      - name: Publier uniquement le calendrier modifié
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- assets/activity.svg assets/activity.json
+          if git diff --cached --quiet; then
+            echo "Aucun changement."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Actualiser le calendrier d'activité [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
