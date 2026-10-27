@@ -14,6 +14,8 @@ lines=(ROOT/'README.md').read_text().splitlines();out=[];i=0
 while i<len(lines):
  line=lines[i]
  if not line.strip():i+=1;continue
+ if line in ['<details>', '</details>'] or line.startswith('<summary>'):
+  out.append(line);i+=1;continue
  if line.startswith('<picture>'):
   block=[]
   while i<len(lines):

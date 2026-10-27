@@ -23,3 +23,7 @@ GITHUB_TOKEN=… python3 scripts/activity.py --login SouphianeJ --output assets
 ```
 
 Fournir le jeton via l’environnement ou un gestionnaire de secrets, sans le versionner. Les scripts utilisent uniquement la bibliothèque standard Python. Le script `scripts/preview_profile.py` permet de générer un aperçu HTML local ; GitHub conserve ses propres styles pour le texte Markdown.
+
+## Sections visuelles du README
+
+Le texte validé est conservé dans `content/profile.md`. Après modification, lancer `python3 scripts/compose_sections.py` pour régénérer les cartes SVG et le README. Ces cartes permettent de conserver les couleurs, bordures et ombres Facet sur GitHub, qui ne charge pas le CSS de l’aperçu local. La version texte complète reste disponible dans le volet « Lire la version texte ». Le README ne contient pas de titre Markdown affiché avant le bandeau. Le calendrier est indépendant et reste mis à jour par GitHub Actions.

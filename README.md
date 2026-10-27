@@ -1,9 +1,32 @@
-# Souphiane Jender
-
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="assets/hero-static.svg">
   <img src="assets/hero.svg" width="100%" alt="Comprendre et collaborer pour concevoir des solutions faciles à adopter.">
 </picture>
+
+![Ingénieur pédagogique, chef de projet et développeur : besoins, cadrage et prototypage.](assets/introduction.svg)
+
+![Concevoir avec les équipes et itérer au quotidien.](assets/approach.svg)
+
+![iStage · Application pédagogique](assets/project-1.svg)
+
+![Intra-ILEPS · Self-service et espace intervenant](assets/project-2.svg)
+
+![Unified Data · iPaaS & référentiel de données](assets/project-3.svg)
+
+![Moodle MCP & Entra Ops · Outils pour agents IA](assets/project-4.svg)
+
+![Tuteur IA, données d’exercice et planification.](assets/workshop.svg)
+
+![Du prototype à un outil maintenable.](assets/engineering.svg)
+
+![Langages, applications, données et intégrations.](assets/stack.svg)
+
+![Calendrier des contributions GitHub.](assets/activity.svg)
+
+![Comprendre les usages. Concevoir avec les équipes. Faire évoluer les outils.](assets/closing.svg)
+
+<details>
+<summary>Lire la version texte</summary>
 
 **Ingénieur pédagogique, chef de projet et développeur**
 
@@ -61,8 +84,8 @@ Je m’appuie aussi sur des agents de code, avec des consignes explicites, une r
 
 ## Activité GitHub
 
-![Calendrier de contributions GitHub](assets/activity.svg)
-
 ---
 
 **Comprendre les usages. Concevoir avec les équipes. Faire évoluer les outils.**
+
+</details>
