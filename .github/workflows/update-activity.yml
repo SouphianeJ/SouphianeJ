@@ -1,54 +1,87 @@
-name: Actualiser le calendrier GitHub
+name: Vérifier et actualiser le profil
 
 on:
   schedule:
-    # UTC. Le démarrage peut être retardé par GitHub.
+    # UTC. Les exécutions planifiées peuvent être retardées par GitHub.
     - cron: '23 5,17 * * *'
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'scripts/activity.py'
-      - 'tests/test_activity.py'
+      - 'profile_design/**'
+      - 'content/**'
+      - 'tests/**'
+      - 'assets/astronaut*.svg'
+      - 'requirements-dev.txt'
+      - 'pyproject.toml'
+      - '.github/workflows/update-activity.yml'
+  pull_request:
+    paths:
+      - 'profile_design/**'
+      - 'content/**'
+      - 'tests/**'
+      - 'assets/**'
+      - 'README.md'
+      - 'requirements-dev.txt'
+      - 'pyproject.toml'
       - '.github/workflows/update-activity.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: profile-activity
+  group: profile-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  update:
-    if: github.repository == 'SouphianeJ/SouphianeJ'
+  check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Installer les outils de relecture
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install --disable-pip-version-check -r requirements-dev.txt
+      - name: Vérifier le style
+        run: |
+          .venv/bin/python -m ruff check .
+          .venv/bin/python -m ruff format --check .
+      - name: Tester les données et le rendu
+        run: python3 -m unittest discover -s tests -v
+      - name: Vérifier les fichiers générés
+        run: python3 -m profile_design.build --check
+
+  update:
+    needs: check
+    if: github.repository == 'SouphianeJ/SouphianeJ' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, référence vérifiée
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          fetch-depth: 1
-      - name: Tester le générateur
-        run: python3 -m unittest discover -s tests -v
-      - name: Lire les agrégats et générer le calendrier
+          # The check job may finish after another profile update has landed.
+          ref: main
+      - name: Actualiser les agrégats et régénérer la fiche
         env:
-          # GHP n'est pas nécessaire aux comptes privés déjà partagés anonymement.
-          # Le jeton automatique ne lit pas le code des dépôts privés.
           GITHUB_TOKEN: ${{ github.token }}
-        run: python3 scripts/activity.py --login SouphianeJ --output assets
-      - name: Publier uniquement le calendrier modifié
+        run: python3 -m profile_design.build --refresh
+      - name: Vérifier le résultat généré
+        run: python3 -m profile_design.build --check
+      - name: Publier les fichiers générés modifiés
         shell: bash
         run: |
           set -euo pipefail
-          git add -- assets/activity.svg assets/activity.json
+          git add -- assets/activity.json assets/activity.svg assets/profile.svg assets/profile-static.svg README.md
           if git diff --cached --quiet; then
             echo "Aucun changement."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Actualiser le calendrier d'activité [skip ci]"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git commit -m "chore: actualiser les contributions GitHub [skip ci]"
+          git push origin "HEAD:main"

@@ -1,29 +1,49 @@
 # Maintenance du profil
 
-Le README et les illustrations sont destinés au profil GitHub de SouphianeJ.
+Le README affiche une seule composition SVG : les sections restent jointives sur GitHub. Une version sans animation suit la préférence `prefers-reduced-motion` et le texte complet reste disponible dans le volet dépliable.
 
-## Bandeau
+## Sources et génération
 
-Modifier `scripts/compose_profile.py`, puis lancer `python3 scripts/compose_profile.py`. Les sources de l’illustration animée et sa version statique sont dans `assets/astronaut.svg` et `assets/astronaut-static.svg`. L’animation est autonome, sans JavaScript ni service externe. Le README utilise un `picture` pour sélectionner le bandeau statique lorsque le système demande de réduire les animations.
+| Source | Rôle |
+| --- | --- |
+| `content/profile.md` | Texte éditorial ; `{{impact_summary}}` insère le cas concret. |
+| `content/impact.json` | Agrégats du cas intervenants fournis par le propriétaire, pour les deux premiers mois de production. Les catégories sont partielles. |
+| `assets/astronaut.svg` et `assets/astronaut-static.svg` | Illustration pixel art de référence et séquence validée. |
+| `profile_design/` | Lecture des données, primitives SVG, sprites, calendrier et composition. |
+| `assets/activity.json` | Dernier relevé GitHub agrégé : période, dates et compteurs uniquement. |
+| `assets/activity.svg`, `assets/profile.svg`, `assets/profile-static.svg`, `README.md` | Fichiers générés, à ne pas éditer directement. |
 
-## Calendrier de contributions
-
-Le workflow `.github/workflows/update-activity.yml` actualise le calendrier à 05:23 et 17:23 UTC, avec déclenchement manuel possible. Il lit les agrégats via le jeton automatique GITHUB_TOKEN, sans demander de secret personnel. Le partage anonyme des contributions privées doit rester activé sur le profil pour qu’elles soient visibles à ce jeton.
-
-Les contributions anonymisées ne sont pas ajoutées une seconde fois au total du calendrier. Ce compteur dépend des détails accessibles au jeton observateur. Ni noms de dépôts privés ni contenu des contributions ne sont publiés. Les contributions sont celles définies par GitHub ; elles ne mesurent pas la qualité du code ou le temps de travail.
-
-Le script valide 365 dates et la cohérence des totaux avant de remplacer les fichiers. En cas d’erreur API, le workflow échoue et conserve les derniers graphiques. Si les données sont identiques, il évite les commits dus au seul passage du temps. Le push ne cible que `assets/activity.svg` et `assets/activity.json`, sans force push.
-
-## Vérifications locales
+Python **3.12 ou ultérieur** suffit à l’exécution ; le générateur utilise uniquement la bibliothèque standard. Les sprites de jeu et les icônes sont construits par le code. Les scènes décoratives ne modifient aucune donnée du calendrier.
 
 ```bash
+python3 -m profile_design.build
+python3 -m profile_design.build --check
 python3 -m unittest discover -s tests -v
-python3 scripts/compose_profile.py
-GITHUB_TOKEN=… python3 scripts/activity.py --login SouphianeJ --output assets
 ```
 
-Fournir le jeton via l’environnement ou un gestionnaire de secrets, sans le versionner. Les scripts utilisent uniquement la bibliothèque standard Python. Le script `scripts/preview_profile.py` permet de générer un aperçu HTML local ; GitHub conserve ses propres styles pour le texte Markdown.
+Pour la relecture du code :
 
-## Sections visuelles du README
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python -m ruff check .
+.venv/bin/python -m ruff format --check .
+```
 
-Le texte validé est conservé dans `content/profile.md`. Après modification, lancer `python3 scripts/compose_sections.py` pour régénérer les cartes SVG et le README. Ces cartes permettent de conserver les couleurs, bordures et ombres Facet sur GitHub, qui ne charge pas le CSS de l’aperçu local. La version texte complète reste disponible dans le volet « Lire la version texte ». Le README ne contient pas de titre Markdown affiché avant le bandeau. Le calendrier est indépendant et reste mis à jour par GitHub Actions.
+## Actualisation GitHub
+
+Le workflow vérifie style, tests et reproductibilité sur les changements de source et les pull requests. L’actualisation réseau et le push sont réservés à `main` dans `SouphianeJ/SouphianeJ`, après validation, à **05:23 et 17:23 UTC**, sur changement de source ou sur déclenchement manuel. GitHub peut retarder les tâches planifiées. Le job de contrôle est en lecture seule, sans conservation d’identifiants Git ; seul le job de publication reçoit `contents: write`. L’action checkout est épinglée à un SHA.
+
+La lecture GraphQL utilise le `GITHUB_TOKEN` automatique. Les contributions privées déjà partagées anonymement sur le profil sont incluses sans accès à leur contenu. `restrictedContributionsCount` décrit les contributions dont les détails ne sont pas accessibles au jeton observateur ; ce compteur n’est pas ajouté une deuxième fois au total du calendrier. Les règles de comptage sont celles de GitHub, pas une mesure du temps de travail ou de la qualité du code.
+
+Pour une actualisation locale, fournir `GITHUB_TOKEN` ou `GH_TOKEN` via l’environnement ou un gestionnaire de secrets, puis lancer :
+
+```bash
+python3 -m profile_design.build --refresh
+```
+
+Aucun jeton personnel n’est nécessaire au workflow ni enregistré dans le dépôt. Une réponse API invalide ou un calendrier incomplet fait échouer le job avant tout commit : les visuels publiés sont conservés. Si les faits sont inchangés, l’horodatage du relevé précédent est conservé pour éviter les commits dus au seul passage du temps. Le push ne concerne que les cinq fichiers générés annoncés dans le workflow et n’utilise jamais de force push.
+
+## Publication
+
+Regénérer les fichiers avant de committer une modification éditoriale ou graphique. Vérifier le workflow sur le commit publié, puis le rendu sur le profil : l’apparence et le cache d’images de GitHub ne sont pas entièrement reproduits par les contrôles XML. Les intitulés de projets et les chiffres d’usage proviennent du propriétaire ; le calendrier est le seul bloc alimenté directement par GitHub.

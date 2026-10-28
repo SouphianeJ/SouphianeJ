@@ -40,11 +40,11 @@ Des outils pour permettre à des agents d’intervenir sur Moodle et Microsoft. 
 - **Jeux de données d’exercice** : générer des données cohérentes pour construire des activités d’analyse.
 - **Planification d’oraux** : organiser des créneaux sous contraintes et rendre les conflits visibles.
 
-## Du prototype à un outil maintenable
+## Cas concret · L’espace intervenant
 
-Je travaille sur les interfaces comme sur ce qui les fait fonctionner : modèles de données, intégrations, droits d’accès et règles métier. Les spécifications, les tests et la documentation servent à garder le projet compréhensible et à maîtriser ses évolutions.
+{{impact_summary}}
 
-Je m’appuie aussi sur des agents de code, avec des consignes explicites, une relecture des propositions et des vérifications avant intégration.
+Des processus partagés couvrent les étapes communes, avec des parcours différenciés selon les statuts.
 
 ## Environnement technique
 
@@ -53,8 +53,6 @@ Je m’appuie aussi sur des agents de code, avec des consignes explicites, une r
 | Python · TypeScript · PHP · SQL | Next.js · FastAPI · MongoDB | REST · SOAP · MCP · Microsoft Graph |
 
 ## Activité GitHub
-
-![Calendrier de contributions GitHub](../assets/activity.svg)
 
 ---
 

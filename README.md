@@ -1,29 +1,7 @@
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/hero-static.svg">
-  <img src="assets/hero.svg" width="100%" alt="Comprendre et collaborer pour concevoir des solutions faciles à adopter.">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/profile-static.svg">
+  <img src="assets/profile.svg" width="100%" alt="Souphiane Jender — Comprendre et collaborer pour concevoir des solutions faciles à adopter. Ingénieur pédagogique, chef de projet et développeur.">
 </picture>
-
-![Ingénieur pédagogique, chef de projet et développeur : besoins, cadrage et prototypage.](assets/introduction.svg)
-
-![Concevoir avec les équipes et itérer au quotidien.](assets/approach.svg)
-
-![iStage · Application pédagogique](assets/project-1.svg)
-
-![Intra-ILEPS · Self-service et espace intervenant](assets/project-2.svg)
-
-![Unified Data · iPaaS & référentiel de données](assets/project-3.svg)
-
-![Moodle MCP & Entra Ops · Outils pour agents IA](assets/project-4.svg)
-
-![Tuteur IA, données d’exercice et planification.](assets/workshop.svg)
-
-![Du prototype à un outil maintenable.](assets/engineering.svg)
-
-![Langages, applications, données et intégrations.](assets/stack.svg)
-
-![Calendrier des contributions GitHub.](assets/activity.svg)
-
-![Comprendre les usages. Concevoir avec les équipes. Faire évoluer les outils.](assets/closing.svg)
 
 <details>
 <summary>Lire la version texte</summary>
@@ -70,11 +48,11 @@ Des outils pour permettre à des agents d’intervenir sur Moodle et Microsoft. 
 - **Jeux de données d’exercice** : générer des données cohérentes pour construire des activités d’analyse.
 - **Planification d’oraux** : organiser des créneaux sous contraintes et rendre les conflits visibles.
 
-## Du prototype à un outil maintenable
+## Cas concret · L’espace intervenant
 
-Je travaille sur les interfaces comme sur ce qui les fait fonctionner : modèles de données, intégrations, droits d’accès et règles métier. Les spécifications, les tests et la documentation servent à garder le projet compréhensible et à maîtriser ses évolutions.
+Sur les 2 premiers mois de mise en production, l’espace intervenant gère l’onboarding et la rémunération de **193 intervenants actifs**, dont **145 vacataires** et **32 auto-entrepreneurs**, pour environ **4 200 heures de cours**.
 
-Je m’appuie aussi sur des agents de code, avec des consignes explicites, une relecture des propositions et des vérifications avant intégration.
+Des processus partagés couvrent les étapes communes, avec des parcours différenciés selon les statuts.
 
 ## Environnement technique
 
