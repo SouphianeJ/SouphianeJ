@@ -1,6 +1,8 @@
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/profile-static.svg">
-  <img src="assets/profile.svg" width="100%" alt="Souphiane Jender — Comprendre et collaborer pour concevoir des solutions faciles à adopter. Ingénieur pédagogique, chef de projet et développeur.">
+<a href="https://www.linkedin.com/in/souphiane-jender/" aria-label="Retrouvons-nous sur LinkedIn">
+  <img src="assets/profile-header.svg" width="100%" alt="Souphiane Jender / Pédagogie · Dev · IA — LinkedIn">
+</a><picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/profile-body-static.svg">
+  <img src="assets/profile-body.svg" width="100%" alt="Comprendre et collaborer pour concevoir des solutions faciles à adopter. Ingénieur pédagogique, chef de projet et développeur.">
 </picture>
 
 <details>

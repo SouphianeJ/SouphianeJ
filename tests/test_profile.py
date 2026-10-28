@@ -40,8 +40,11 @@ class ProfileTests(unittest.TestCase):
     def test_only_one_image_block_prevents_markdown_gaps(self):
         readme = artifacts(ROOT)["README.md"]
         self.assertEqual(readme.count("<picture>"), 1)
-        self.assertEqual(readme.count("<img "), 1)
-        self.assertTrue(readme.startswith("<picture>"))
+        self.assertEqual(readme.count("<img "), 2)
+        self.assertIn('href="https://www.linkedin.com/in/souphiane-jender/"', readme)
+        self.assertTrue(
+            readme.startswith('<a href="https://www.linkedin.com/in/souphiane-jender/"')
+        )
         self.assertIn("<details>", readme)
         self.assertNotIn("{{impact_summary}}", readme)
 
@@ -50,7 +53,7 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(len(rows), 13, name)
             self.assertEqual({len(row) for row in rows}, {13}, name)
 
-    def test_blue_chase_and_lime_escape_have_distinct_clips_and_directions(self):
+    def test_chase_and_escape_have_distinct_clips_and_directions(self):
         hunting, _ = chase(0, "process-game", reverse=True, hunting=True)
         escaping, _ = chase(0, "calendar-game")
         self.assertIn("scale(-1 1)", hunting)

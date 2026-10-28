@@ -109,7 +109,7 @@ def pacman(x, y, color=LIME, opening=pi / 5):
     return "".join(pixels)
 
 
-def ghost(x, y, color):
+def ghost(x, y, color, *, frightened=False):
     silhouette = set()
     for row in range(21):
         for col in range(21):
@@ -124,9 +124,14 @@ def ghost(x, y, color):
             (col + dx, row + dy) not in silhouette for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]
         )
         fill = INK if edge else color
-        if row in range(6, 12) and (4 <= col < 8 or 13 <= col < 17):
+        if frightened:
+            eyes = row in (7, 8) and col in (5, 6, 14, 15)
+            mouth = 4 <= col <= 16 and row == 13 + ((col - 4) // 2) % 2
+            if eyes or mouth:
+                fill = SURFACE
+        elif row in range(6, 12) and (4 <= col < 8 or 13 <= col < 17):
             fill = SURFACE
-        if row in (8, 9, 10) and col in (6, 7, 15, 16):
+        if not frightened and row in (8, 9, 10) and col in (6, 7, 15, 16):
             fill = INK
         pixels.append(box(x + col * 2, y + row * 2, 2, 2, fill))
     return "".join(pixels)
@@ -134,7 +139,8 @@ def ghost(x, y, color):
 
 def chase(y, name, *, reverse=False, hunting=False):
     """Namespaced animation: movement, clips and dots cannot collide across scenes."""
-    color = CYAN if hunting else LIME
+    color = "#ffdf00"
+    ghost_colors = ("#191970", "#191970") if hunting else (PINK, CYAN)
     mirror = ' transform="translate(1000 0) scale(-1 1)"' if reverse else ""
     css = f"""
     .{name}-move{{animation:{name}-travel 12s linear infinite}}
@@ -162,7 +168,7 @@ def chase(y, name, *, reverse=False, hunting=False):
             f'<g clip-path="url(#{name}-clip)"><g class="{name}-move">',
             f'<g class="{name}-open">{pacman(64, y, color)}</g>',
             f'<g class="game-mouth-closed {name}-closed">{pacman(64, y, color, pi / 18)}</g>',
-            f'<g class="{name}-ghost">{ghost(ghost_positions[0], y, PINK)}{ghost(ghost_positions[1], y, CYAN if not hunting else LIME)}</g>',
+            f'<g class="{name}-ghost">{ghost(ghost_positions[0], y, ghost_colors[0], frightened=hunting)}{ghost(ghost_positions[1], y, ghost_colors[1], frightened=hunting)}</g>',
             "</g></g></g>",
         ]
     )

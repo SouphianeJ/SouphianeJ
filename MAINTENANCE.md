@@ -1,6 +1,6 @@
 # Maintenance du profil
 
-Le README affiche une seule composition SVG : les sections restent jointives sur GitHub. Une version sans animation suit la préférence `prefers-reduced-motion` et le texte complet reste disponible dans le volet dépliable.
+Le README affiche un bandeau lié à LinkedIn, puis la composition SVG : le bouton figure à droite sur la première ligne. Le bandeau entier est cliquable, car GitHub affiche les SVG comme des images. Une version sans animation suit la préférence `prefers-reduced-motion` et le texte complet reste disponible dans le volet dépliable.
 
 ## Sources et génération
 
@@ -11,7 +11,7 @@ Le README affiche une seule composition SVG : les sections restent jointives sur
 | `assets/astronaut.svg` et `assets/astronaut-static.svg` | Illustration pixel art de référence et séquence validée. |
 | `profile_design/` | Lecture des données, primitives SVG, sprites, calendrier et composition. |
 | `assets/activity.json` | Dernier relevé GitHub agrégé : période, dates et compteurs uniquement. |
-| `assets/activity.svg`, `assets/profile.svg`, `assets/profile-static.svg`, `README.md` | Fichiers générés, à ne pas éditer directement. |
+| `assets/activity.svg`, `assets/profile.svg`, `assets/profile-static.svg`, `assets/profile-header.svg`, `assets/profile-body.svg`, `assets/profile-body-static.svg`, `README.md` | Fichiers générés, à ne pas éditer directement. |
 
 Python **3.12 ou ultérieur** suffit à l’exécution ; le générateur utilise uniquement la bibliothèque standard. Les sprites de jeu et les icônes sont construits par le code. Les scènes décoratives ne modifient aucune donnée du calendrier.
 
@@ -42,7 +42,7 @@ Pour une actualisation locale, fournir `GITHUB_TOKEN` ou `GH_TOKEN` via l’envi
 python3 -m profile_design.build --refresh
 ```
 
-Aucun jeton personnel n’est nécessaire au workflow ni enregistré dans le dépôt. Une réponse API invalide ou un calendrier incomplet fait échouer le job avant tout commit : les visuels publiés sont conservés. Si les faits sont inchangés, l’horodatage du relevé précédent est conservé pour éviter les commits dus au seul passage du temps. Le push ne concerne que les cinq fichiers générés annoncés dans le workflow et n’utilise jamais de force push.
+Aucun jeton personnel n’est nécessaire au workflow ni enregistré dans le dépôt. Une réponse API invalide ou un calendrier incomplet fait échouer le job avant tout commit : les visuels publiés sont conservés. Si les faits sont inchangés, l’horodatage du relevé précédent est conservé pour éviter les commits dus au seul passage du temps. Le push ne concerne que les huit fichiers générés annoncés dans le workflow et n’utilise jamais de force push.
 
 ## Publication
 

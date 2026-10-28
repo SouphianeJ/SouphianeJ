@@ -107,7 +107,7 @@ def render_profile(root, snapshot, source, impact):
         x = 54 + i * 305
         name, _, body = plain(entry).partition(" : ")
         out += [icon(["agent", "network", "window"][i], x, y, [PINK, CYAN, INK][i], 4)]
-        h, z = paragraph(name, x, y + 62, 25, 20, bold=True, leading=28)
+        h, z = paragraph(name, x, y + 76, 25, 20, bold=True, leading=28)
         out.append(h)
         z += 8
         h, z = paragraph(body, x, z, 25, 20, leading=28)

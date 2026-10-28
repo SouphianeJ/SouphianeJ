@@ -76,7 +76,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add -- assets/activity.json assets/activity.svg assets/profile.svg assets/profile-static.svg README.md
+          git add -- assets/activity.json assets/activity.svg assets/profile.svg assets/profile-static.svg assets/profile-header.svg assets/profile-body.svg assets/profile-body-static.svg README.md
           if git diff --cached --quiet; then
             echo "Aucun changement."
             exit 0

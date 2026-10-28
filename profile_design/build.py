@@ -9,6 +9,7 @@ from tempfile import TemporaryDirectory
 
 from . import activity
 from .calendar import render_calendar
+from .hero import render_header
 from .layout import render_profile
 from .svg import static_version
 
@@ -67,10 +68,17 @@ def artifacts(root):
     static = static_version(svg)
     for content in [svg, static]:
         ET.fromstring(content)
+    height = int(ET.fromstring(svg).attrib["height"])
+    body_frame = f'height="{height - 80}" viewBox="0 80 1000 {height - 80}"'
+    full_frame = f'height="{height}" viewBox="0 0 1000 {height}"'
+    body = svg.replace(full_frame, body_frame, 1)
+    body_static = static.replace(full_frame, body_frame, 1)
     readme = (
-        """<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/profile-static.svg">
-  <img src="assets/profile.svg" width="100%" alt="Souphiane Jender — Comprendre et collaborer pour concevoir des solutions faciles à adopter. Ingénieur pédagogique, chef de projet et développeur.">
+        """<a href="https://www.linkedin.com/in/souphiane-jender/" aria-label="Retrouvons-nous sur LinkedIn">
+  <img src="assets/profile-header.svg" width="100%" alt="Souphiane Jender / Pédagogie · Dev · IA — LinkedIn">
+</a><picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/profile-body-static.svg">
+  <img src="assets/profile-body.svg" width="100%" alt="Comprendre et collaborer pour concevoir des solutions faciles à adopter. Ingénieur pédagogique, chef de projet et développeur.">
 </picture>
 
 <details>
@@ -81,6 +89,9 @@ def artifacts(root):
         + "\n</details>\n"
     )
     return {
+        "assets/profile-header.svg": render_header(),
+        "assets/profile-body.svg": body,
+        "assets/profile-body-static.svg": body_static,
         "assets/profile.svg": svg,
         "assets/profile-static.svg": static,
         "assets/activity.svg": render_calendar(snapshot),

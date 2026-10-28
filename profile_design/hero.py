@@ -3,13 +3,25 @@
 from .svg import CYAN, INK, LIME, RED, SURFACE, box, document, nested, text
 
 
+def render_header():
+    parts = [
+        box(32, 24, 936, 44, INK),
+        text(48, 53, "SOUPHIANE JENDER /", 18, True, True, SURFACE),
+        text(567, 52, "PÉDAGOGIE · DEV · IA", 14, mono=True, color=CYAN),
+        box(804, 31, 151, 30, CYAN),
+        box(813, 37, 18, 18, INK),
+        text(815, 52, "in", 14, True, color=CYAN),
+        text(840, 51, "LINKEDIN", 12, True, True),
+        '<path d="M931 51l10-10m-7 0h7v7" fill="none" stroke="#0a0a0a" stroke-width="2"/>',
+    ]
+    return document("".join(parts), 80, "Souphiane Jender / Pédagogie · Dev · IA — LinkedIn")
+
+
 def render_hero(root):
     actor = (root / "assets/astronaut.svg").read_text(encoding="utf-8")
     parts = [
         '<defs><pattern id="hero-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#0a0a0a" stroke-opacity=".045"/></pattern></defs>',
-        box(32, 24, 936, 44, INK),
-        text(48, 53, "SJ / SOUPHIANE JENDER", 18, True, True, SURFACE),
-        text(662, 52, "PÉDAGOGIE · DEV · IA", 14, mono=True, color=CYAN),
+        nested(render_header(), 0, 0, 1000, 80, "0 0 1000 80"),
         box(32, 92, 936, 449, SURFACE, INK, 7),
         box(32, 92, 936, 449, "url(#hero-grid)"),
         box(56, 109, 510, 29, LIME, INK),
