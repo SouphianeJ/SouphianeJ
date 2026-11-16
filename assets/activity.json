@@ -1,18 +1,14 @@
 {
   "user": "SouphianeJ",
   "source": "GitHub GraphQL API",
-  "fetched_at": "2026-11-15T21:53:23.750276Z",
+  "fetched_at": "2026-11-16T13:47:04.359854Z",
   "period": {
-    "from": "2025-11-16",
-    "to": "2026-11-15"
+    "from": "2025-11-17",
+    "to": "2026-11-16"
   },
-  "total_contributions": 7491,
-  "restricted_contributions": 7292,
+  "total_contributions": 7548,
+  "restricted_contributions": 7349,
   "days": [
-    {
-      "date": "2025-11-16",
-      "count": 0
-    },
     {
       "date": "2025-11-17",
       "count": 2
@@ -1467,7 +1463,11 @@
     },
     {
       "date": "2026-11-15",
-      "count": 53
+      "count": 91
+    },
+    {
+      "date": "2026-11-16",
+      "count": 19
     }
   ]
 }
